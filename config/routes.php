@@ -12,6 +12,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->setExtensions(['json']);
     $routes->resources('Companies');
+    $routes->connect('/*', ['controller' => 'Initial', 'action' => 'index']);
     $routes->fallbacks(DashedRoute::class);
 });
 
