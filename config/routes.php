@@ -8,11 +8,10 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $routes->connect('/', ['controller' => 'Initial', 'action' => 'index']);
 
     $routes->setExtensions(['json']);
     $routes->resources('Companies');
-    $routes->connect('/pages/*', ['controller' => 'Initial', 'action' => 'index']);
     $routes->fallbacks(DashedRoute::class);
 });
 
