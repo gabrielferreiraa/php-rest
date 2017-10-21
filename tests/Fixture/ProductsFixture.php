@@ -4,10 +4,10 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * CompaniesFixture
+ * ProductsFixture
  *
  */
-class CompaniesFixture extends TestFixture
+class ProductsFixture extends TestFixture
 {
 
     /**
@@ -19,7 +19,6 @@ class CompaniesFixture extends TestFixture
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 10, 'autoIncrement' => true, 'default' => null, 'null' => false, 'comment' => null, 'precision' => null, 'unsigned' => null],
         'name' => ['type' => 'string', 'length' => 255, 'default' => null, 'null' => false, 'collate' => null, 'comment' => null, 'precision' => null, 'fixed' => null],
-        'cnpj' => ['type' => 'string', 'length' => 14, 'default' => null, 'null' => false, 'collate' => null, 'comment' => null, 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'timestamp', 'length' => null, 'default' => null, 'null' => true, 'comment' => null, 'precision' => null],
         'modified' => ['type' => 'timestamp', 'length' => null, 'default' => null, 'null' => true, 'comment' => null, 'precision' => null],
         '_constraints' => [
@@ -37,9 +36,8 @@ class CompaniesFixture extends TestFixture
         [
             'id' => 1,
             'name' => 'Lorem ipsum dolor sit amet',
-            'cnpj' => 'Lorem ipsum ',
-            'created' => 1508554228,
-            'modified' => 1508554228
+            'created' => 1508554256,
+            'modified' => 1508554256
         ],
     ];
 }

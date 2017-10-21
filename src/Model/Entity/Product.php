@@ -4,15 +4,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Company Entity
+ * Product Entity
  *
  * @property int $id
  * @property string $name
- * @property string $cnpj
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
+ *
+ * @property \App\Model\Entity\OrderProduct[] $order_products
  */
-class Company extends Entity
+class Product extends Entity
 {
 
     /**
@@ -26,8 +27,8 @@ class Company extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'cnpj' => true,
         'created' => true,
-        'modified' => true
+        'modified' => true,
+        'order_products' => true
     ];
 }

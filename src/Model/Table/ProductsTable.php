@@ -7,21 +7,21 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Companies Model
+ * Products Model
  *
- * @property |\Cake\ORM\Association\HasMany $Orders
+ * @property \App\Model\Table\OrderProductsTable|\Cake\ORM\Association\HasMany $OrderProducts
  *
- * @method \App\Model\Entity\Company get($primaryKey, $options = [])
- * @method \App\Model\Entity\Company newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Company[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Company|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Company patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Company[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Company findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Product get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Product newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Product[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Product|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Product patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Product[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Product findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class CompaniesTable extends Table
+class ProductsTable extends Table
 {
 
     /**
@@ -34,14 +34,14 @@ class CompaniesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('companies');
+        $this->setTable('products');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('Orders', [
-            'foreignKey' => 'company_id'
+        $this->hasMany('OrderProducts', [
+            'foreignKey' => 'product_id'
         ]);
     }
 
@@ -61,11 +61,6 @@ class CompaniesTable extends Table
             ->scalar('name')
             ->requirePresence('name', 'create')
             ->notEmpty('name');
-
-        $validator
-            ->scalar('cnpj')
-            ->requirePresence('cnpj', 'create')
-            ->notEmpty('cnpj');
 
         return $validator;
     }

@@ -1,18 +1,20 @@
 <?php
 namespace App\Model\Entity;
 
+use App\Auth\Sha512PasswordHasher;
 use Cake\ORM\Entity;
 
 /**
- * Company Entity
+ * User Entity
  *
  * @property int $id
- * @property string $name
- * @property string $cnpj
+ * @property string $email
+ * @property string $password
+ * @property string $token
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  */
-class Company extends Entity
+class User extends Entity
 {
 
     /**
@@ -25,9 +27,16 @@ class Company extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'cnpj' => true,
+        'email' => true,
+        'password' => true,
+        'token' => true,
         'created' => true,
         'modified' => true
     ];
+
+    protected function _setPassword($password)
+    {
+        $hash = new Sha512PasswordHasher();
+        return $hash->hash($password);
+    }
 }

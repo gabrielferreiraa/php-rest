@@ -4,15 +4,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Company Entity
+ * Order Entity
  *
  * @property int $id
- * @property string $name
- * @property string $cnpj
+ * @property int $company_id
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
+ *
+ * @property \App\Model\Entity\Company $company
+ * @property \App\Model\Entity\OrderProduct[] $order_products
  */
-class Company extends Entity
+class Order extends Entity
 {
 
     /**
@@ -25,9 +27,10 @@ class Company extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'cnpj' => true,
+        'company_id' => true,
         'created' => true,
-        'modified' => true
+        'modified' => true,
+        'company' => true,
+        'order_products' => true
     ];
 }

@@ -6,32 +6,40 @@ use App\Controller\AppController as BaseController;
 use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\UnauthorizedException;
-use Firebase\JWT\JWT;
+use Cake\ORM\TableRegistry;
+use Ws\Lib\Auth;
 
 class AppController extends BaseController
 {
-    public function initialize() {
+    private $allowedControllers = ['Auth', 'Users'];
+
+    public function initialize()
+    {
         $this->loadComponent('RequestHandler');
 
         if (!$this->request->is(['json'])) {
             throw new MethodNotAllowedException('Not allowed');
         }
 
-        $this->checkToken();
+        $currentController = $this->request->controller;
+        if (!in_array($currentController, $this->allowedControllers)) {
+            $this->checkToken();
+        }
     }
 
     /**
-     * Verifica se o token é valido
+     * Verifica se o token é válido
      */
-    private function checkToken() {
+    private function checkToken()
+    {
         $token = $this->getRequestToken();
 
         if (!$token) {
-            throw new BadRequestException('Token not provided');
+            throw new BadRequestException('Token não fornecido');
         }
 
         if (!$this->validateToken($token)) {
-            throw new UnauthorizedException('Invalid credentials');
+            throw new UnauthorizedException('Credenciais inválidas');
         }
     }
 
@@ -39,7 +47,8 @@ class AppController extends BaseController
      * Get token
      * @return bool|null|string
      */
-    private function getRequestToken() {
+    private function getRequestToken()
+    {
         if ($this->request->header('Authorization')) {
             return $this->request->header('Authorization');
         }
@@ -48,10 +57,23 @@ class AppController extends BaseController
     }
 
     /**
+     * Validate decoded token
      * @param $token
      * @return bool
      */
-    private function validateToken($token) {
+    private function validateToken($token)
+    {
+        $decoded = Auth::decode($token);
+
+        if (!$decoded) {
+            return false;
+        }
+
+        $Users = TableRegistry::get('Users');
+
+        $user = $Users->find('validate', $decoded);
+        debug($decoded);
+        exit;
         try {
 
         } catch (\Exception $e) {

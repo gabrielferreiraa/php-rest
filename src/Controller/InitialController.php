@@ -8,7 +8,7 @@ class InitialController extends AppController
 {
     public function index()
     {
-        $baseUrl = Router::url('/', true);
+        $baseUrl = Router::url('/', true) . 'ws/';
 
         $this->set(compact('baseUrl'));
     }
