@@ -25,16 +25,14 @@ class UsersController extends AppController
 
     public function add()
     {
-        $user = $this->Users->newEntity();
-
         $response = [
             'status' => 'error',
             'message' => 'Problema ao salvar usuário, por favor tente novamente'
         ];
 
         if ($this->request->is('post')) {
-            $data = $this->request->getData();
-            $user = $this->Users->patchEntity($user, $data);
+            $user = $this->Users->newEntity();
+            $user = $this->Users->patchEntity($user, $this->request->getData());
 
             if ($this->Users->save($user)) {
                 $response['status'] = 'success';

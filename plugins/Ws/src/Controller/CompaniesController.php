@@ -24,16 +24,14 @@ class CompaniesController extends AppController
 
     public function add()
     {
-        $user = $this->Companies->newEntity();
-
         $response = [
             'status' => 'error',
             'message' => 'Problema ao salvar empresa, por favor tente novamente'
         ];
 
         if ($this->request->is('post')) {
-            $data = $this->request->getData();
-            $user = $this->Companies->patchEntity($user, $data);
+            $user = $this->Companies->newEntity();
+            $user = $this->Companies->patchEntity($user, $this->request->getData());
 
             if ($this->Companies->save($user)) {
                 $response['status'] = 'success';

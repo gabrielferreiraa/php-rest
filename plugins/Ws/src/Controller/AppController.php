@@ -3,6 +3,7 @@
 namespace Ws\Controller;
 
 use App\Controller\AppController as BaseController;
+use Cake\Event\Event;
 use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\InvalidCsrfTokenException;
 use Cake\Network\Exception\MethodNotAllowedException;
@@ -16,8 +17,9 @@ class AppController extends BaseController
 
     public function initialize()
     {
+        $this->response->header('Access-Control-Allow-Origin','*');
         $this->loadComponent('RequestHandler');
-
+debug($this->request);exit;
         if (!$this->request->is(['json'])) {
             throw new MethodNotAllowedException('Not allowed');
         }
@@ -83,5 +85,13 @@ class AppController extends BaseController
         }
 
         return true;
+    }
+
+    public function beforeRender(Event $event) {
+        if (!array_key_exists('_serialize', $this->viewVars) &&
+            in_array($this->response->type(), ['application/json', 'application/xml'])
+        ) {
+            $this->set('_serialize', true);
+        }
     }
 }
