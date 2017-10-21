@@ -86,8 +86,8 @@ class UsersTable extends Table
     {
         $user = $query
             ->where([
-                'email' => $data->email,
-                'token' => $data->token
+                'email' => $data['email'],
+                'token' => $data['token']
             ])
             ->limit(1)
             ->first();

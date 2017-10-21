@@ -29,13 +29,13 @@ class Auth
         return false;
     }
 
-    static function encode($email, $password)
+    static function encode($email, $token)
     {
         $config = Configure::read('JWT');
 
         $values = [
             'email' => $email,
-            'password' => $password
+            'token' => $token
         ];
         $key = base64_decode($config['key']);
 

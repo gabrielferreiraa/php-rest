@@ -13,6 +13,7 @@ class AuthController extends AppController
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
+        $this->loadComponent('Token');
         $this->Users = TableRegistry::get('Users');
     }
 
@@ -27,16 +28,11 @@ class AuthController extends AppController
                 throw new UnauthorizedException('Credenciais inválidas');
             }
 
-            $user->token = Auth::encode($user->email, $user->password, 'RS256');
-            debuG(strlen($user->token));exit;
+
+            $user->token = $this->Token->generate(64);
             $this->Users->save($user);
 
-            $this->set([
-                'status' => 'success',
-                'data' => [
-                    'token' => $user->token
-                ]
-            ]);
+            $this->set(['token' => Auth::encode($user->email, $user->token)]);
         }
     }
 }

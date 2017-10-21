@@ -52,6 +52,7 @@ class InitialMigrate extends AbstractMigration
                 (  id serial NOT NULL, 
                    order_id INTEGER NOT NULL, 
                    product_id INTEGER NOT NULL, 
+                   qtd INTEGER,
                    created TIMESTAMP without TIME ZONE, 
                    modified TIMESTAMP without TIME ZONE, 
                    CONSTRAINT pk_order_products PRIMARY KEY (id),

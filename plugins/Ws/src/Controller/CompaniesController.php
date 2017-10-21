@@ -4,41 +4,40 @@ namespace Ws\Controller;
 use Cake\ORM\TableRegistry;
 use Ws\Controller\AppController;
 
-class UsersController extends AppController
+class CompaniesController extends AppController
 {
     public function initialize()
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
-        $this->Users = TableRegistry::get('Users');
+        $this->Companies = TableRegistry::get('Companies');
     }
 
     public function index()
     {
-        $this->Users->displayField('email');
-        $users = $this->Users->find('list');
+        $companies = $this->Companies->find('list');
 
         $this->set([
-            'users' => $users
+            'companies' => $companies
         ]);
     }
 
     public function add()
     {
-        $user = $this->Users->newEntity();
+        $user = $this->Companies->newEntity();
 
         $response = [
             'status' => 'error',
-            'message' => 'Problema ao salvar usuário, por favor tente novamente'
+            'message' => 'Problema ao salvar empresa, por favor tente novamente'
         ];
 
         if ($this->request->is('post')) {
             $data = $this->request->getData();
-            $user = $this->Users->patchEntity($user, $data);
+            $user = $this->Companies->patchEntity($user, $data);
 
-            if ($this->Users->save($user)) {
+            if ($this->Companies->save($user)) {
                 $response['status'] = 'success';
-                $response['message'] = 'Usuário criado com sucesso';
+                $response['message'] = 'Empresa criada com sucesso';
             }
         }
 
@@ -47,21 +46,21 @@ class UsersController extends AppController
 
     public function edit($id = null)
     {
-        $user = $this->Users->get($id, [
+        $user = $this->Companies->get($id, [
             'contain' => []
         ]);
 
         $response = [
             'status' => 'error',
-            'message' => 'Problema ao editar usuário, por favor tente novamente'
+            'message' => 'Problema ao editar empresa, por favor tente novamente'
         ];
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user = $this->Companies->patchEntity($user, $this->request->getData());
 
-            if ($this->Users->save($user)) {
+            if ($this->Companies->save($user)) {
                 $response['status'] = 'success';
-                $response['message'] = 'Usuário editado com sucesso';
+                $response['message'] = 'Empresa editada com sucesso';
             }
         }
 
@@ -70,16 +69,16 @@ class UsersController extends AppController
 
     public function delete($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Companies->get($id);
 
         $response = [
             'status' => 'error',
-            'message' => 'Problema ao deletar usuário, por favor tente novamente'
+            'message' => 'Problema ao deletar empresa, por favor tente novamente'
         ];
 
-        if ($this->Users->delete($user)) {
+        if ($this->Companies->delete($user)) {
             $response['status'] = 'success';
-            $response['message'] = 'Usuário deletado com sucesso';
+            $response['message'] = 'Empresa deletada com sucesso';
         }
 
         $this->set($response);

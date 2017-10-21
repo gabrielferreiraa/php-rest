@@ -4,6 +4,7 @@ namespace Ws\Controller;
 
 use App\Controller\AppController as BaseController;
 use Cake\Network\Exception\BadRequestException;
+use Cake\Network\Exception\InvalidCsrfTokenException;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
@@ -63,7 +64,11 @@ class AppController extends BaseController
      */
     private function validateToken($token)
     {
-        $decoded = Auth::decode($token);
+        try {
+            $decoded = Auth::decode($token);
+        } catch (InvalidCsrfTokenException $e) {
+            return false;
+        }
 
         if (!$decoded) {
             return false;
@@ -72,14 +77,11 @@ class AppController extends BaseController
         $Users = TableRegistry::get('Users');
 
         $user = $Users->find('validate', $decoded);
-        debug($decoded);
-        exit;
-        try {
 
-        } catch (\Exception $e) {
+        if (!$user) {
             return false;
         }
 
-        return false;
+        return true;
     }
 }
