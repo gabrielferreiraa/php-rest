@@ -21,6 +21,9 @@ class AuthController extends AppController
     {
         if ($this->request->is('post')) {
             $post = $this->request->getData();
+            if(count($this->request->input('json_decode', true))) {
+                $post = $this->request->input('json_decode', true);
+            }
 
             $user = $this->Users->find('login', $post);
 
@@ -32,7 +35,11 @@ class AuthController extends AppController
             $user->token = $this->Token->generate(64);
             $this->Users->save($user);
 
-            $this->set(['token' => Auth::encode($user->email, $user->token)]);
+            $firstName = explode(' ', $user->name)[0];
+            $this->set([
+                'message' => $firstName . ', bem vindo',
+                'token' => Auth::encode($user->email, $user->token)
+            ]);
         }
     }
 }

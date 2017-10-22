@@ -216,3 +216,5 @@ if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }
 Plugin::load('Ws', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('Cors', ['bootstrap' => true, 'routes' => false]);
+

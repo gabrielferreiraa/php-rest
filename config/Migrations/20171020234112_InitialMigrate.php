@@ -30,7 +30,8 @@ class InitialMigrate extends AbstractMigration
         /* Creating users table */
         $SQL = "CREATE TABLE users
                 (  id serial NOT NULL, 
-                   email CHARACTER VARYING (45) NOT NULL, 
+                   email CHARACTER VARYING (45) NOT NULL,
+                   name CHARACTER VARYING (45),
                    password CHARACTER VARYING (255) NOT NULL,
                    token CHARACTER VARYING (255),
                    created TIMESTAMP without TIME ZONE, 
