@@ -61,9 +61,12 @@ class UsersController extends AppController
                 $response['status'] = 'success';
                 $response['message'] = 'Usuário editado com sucesso';
             }
+
+            $this->set($response);
         }
 
-        $this->set($response);
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
     }
 
     public function delete($id = null)

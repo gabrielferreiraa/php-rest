@@ -20,7 +20,6 @@ class AppController extends BaseController
     public function initialize()
     {
         parent::initialize();
-        $this->response->header('Access-Control-Allow-Origin', '*');
 
         if (!$this->request->is(['json'])) {
             throw new MethodNotAllowedException('Not allowed');
