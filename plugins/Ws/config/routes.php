@@ -4,6 +4,8 @@ use Cake\Routing\Router;
 use Cake\Routing\Route\DashedRoute;
 
 Router::plugin('Ws', ['path' => '/ws'], function (RouteBuilder $routes) {
+    $routes->setExtensions(['json']);
+
     $routes->resources('Users');
     $routes->resources('Companies');
     $routes->fallbacks(DashedRoute::class);
