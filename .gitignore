@@ -7,8 +7,8 @@
 /tmp/*
 /vendor/*
 
-# OS generated files #
-######################
+# OS generated files
+
 .DS_Store
 .DS_Store?
 ._*
@@ -17,9 +17,6 @@
 Icon?
 ehthumbs.db
 Thumbs.db
-
-# Tool specific files #
-#######################
 *~ # vim
 *.swp # vim
 *.swo # vim
@@ -28,7 +25,7 @@ Thumbs.db
 *.tmPreferences.cache # sublime text & textmate
 *.stTheme.cache # cache files for sublime text
 .settings/* # Eclipse
-.idea/* # JetBrains, aka PHPStorm, IntelliJ IDEA
+.idea/*
 nbproject/* # NetBeans
 .vscode # Visual Studio Code
 .sass-cache/ # Sass preprocessor
