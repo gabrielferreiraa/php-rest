@@ -40,6 +40,15 @@ trait CrudTrait
         return $this->Label;
     }
 
+    public function index() {
+        $EntityTable = $this->getEntity();
+
+        $response = $EntityTable->find('all');
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
+
     public function add()
     {
         $response = [
