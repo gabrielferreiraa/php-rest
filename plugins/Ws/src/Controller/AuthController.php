@@ -21,25 +21,24 @@ class AuthController extends AppController
     {
         if ($this->request->is('post')) {
             $post = $this->request->getData();
-            if(count($this->request->input('json_decode', true))) {
-                $post = $this->request->input('json_decode', true);
-            }
-
             $user = $this->Users->find('login', $post);
 
             if (!$user) {
                 throw new UnauthorizedException('Credenciais inválidas');
             }
 
-
             $user->token = $this->Token->generate(64);
             $this->Users->save($user);
 
             $firstName = explode(' ', $user->name)[0];
-            $this->set([
+
+            $response = [
                 'message' => $firstName . ', bem vindo',
                 'token' => Auth::encode($user->email, $user->token)
-            ]);
+            ];
+
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']);
         }
     }
 }
