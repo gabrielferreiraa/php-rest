@@ -2,6 +2,7 @@
 
 namespace Ws\Controller\Traits;
 
+use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\TableRegistry;
 
 trait CrudTrait
@@ -51,12 +52,6 @@ trait CrudTrait
 
     public function add()
     {
-        $response = [
-            'status' => 'error',
-            'message' => "Problema ao salvar {$this->getLabel()}, por favor tente novamente",
-            'data' => []
-        ];
-
         if ($this->request->is('post')) {
             $TableEntity = $this->getEntity();
             $post = $this->request->getData();
@@ -64,17 +59,19 @@ trait CrudTrait
             $entity = $TableEntity->newEntity();
             $entity = $TableEntity->patchEntity($entity, $post);
 
-            if ($TableEntity->save($entity)) {
-                $response = [
-                    'status' => 'success',
-                    'message' => ucfirst($this->getLabel()) . ' salva com sucesso',
-                    'data' => $entity
-                ];
+            if(!$TableEntity->save($entity)) {
+                throw new InternalErrorException("Problema ao salvar {$this->getLabel()}, por favor tente novamente");
             }
-        }
 
-        $this->set(compact('response'));
-        $this->set('_serialize', ['response']);
+            $response = [
+                'status' => 'success',
+                'message' => ucfirst($this->getLabel()) . ' salvo(a) com sucesso',
+                'data' => $entity
+            ];
+
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']);
+        }
     }
 
     public function edit($id = null)

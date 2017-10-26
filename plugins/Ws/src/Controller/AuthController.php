@@ -34,7 +34,8 @@ class AuthController extends AppController
 
             $response = [
                 'message' => $firstName . ', bem vindo',
-                'token' => Auth::encode($user->email, $user->token)
+                'token' => Auth::encode($user->email, $user->token),
+                'user' => $user
             ];
 
             $this->set(compact('response'));
