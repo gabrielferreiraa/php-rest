@@ -7,6 +7,7 @@ class CompaniesController extends AppController
 {
     use Traits\CrudTrait {
         add as public;
+        view as public;
         edit as public;
     }
 

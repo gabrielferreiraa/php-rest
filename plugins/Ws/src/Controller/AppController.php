@@ -39,7 +39,7 @@ class AppController extends BaseController
         $token = $this->getRequestToken();
 
         if (!$token) {
-            throw new BadRequestException('Token não fornecido');
+            throw new UnauthorizedException('Token não fornecido');
         }
 
         if (!$this->validateToken($token)) {
