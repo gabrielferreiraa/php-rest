@@ -69,4 +69,26 @@ class CompaniesTable extends Table
 
         return $validator;
     }
+
+    public function getCompanyAndOrders()
+    {
+        $response = $this
+            ->find()
+            ->select([
+                'Companies.name',
+                'Companies.cnpj',
+                'qtd' => 'COUNT(o.id)'
+            ])
+            ->leftJoin(['o' => 'orders'], ['o.company_id = Companies.id'])
+            ->group('Companies.id')
+            ->order('Companies.name');
+
+        if (!empty($response)) {
+            $response = $response->toArray();
+
+            return $response;
+        }
+
+        return [];
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Ws\Controller;
 
+use Cake\ORM\TableRegistry;
 use Ws\Controller\AppController;
 
 class CompaniesController extends AppController
@@ -17,5 +18,15 @@ class CompaniesController extends AppController
         $this->loadComponent('RequestHandler');
         $this->setEntity('Companies');
         $this->setLabel('empresa');
+
+        $this->Companies = TableRegistry::get('Companies');
+    }
+
+    public function getCompanyAndOrders()
+    {
+        $response = $this->Companies->getCompanyAndOrders();
+
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
     }
 }
