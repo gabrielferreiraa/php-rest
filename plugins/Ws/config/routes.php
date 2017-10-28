@@ -8,5 +8,7 @@ Router::plugin('Ws', ['path' => '/ws'], function (RouteBuilder $routes) {
 
     $routes->resources('Users');
     $routes->resources('Companies');
+    $routes->resources('Products');
+    $routes->resources('Orders');
     $routes->fallbacks(DashedRoute::class);
 });

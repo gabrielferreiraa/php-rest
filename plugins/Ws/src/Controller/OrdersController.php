@@ -3,7 +3,7 @@ namespace Ws\Controller;
 
 use Ws\Controller\AppController;
 
-class UsersController extends AppController
+class OrdersController extends AppController
 {
     use Traits\CrudTrait {
         add as public;
@@ -15,7 +15,8 @@ class UsersController extends AppController
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
-        $this->setEntity('Users');
-        $this->setLabel('usuário');
+        $this->setEntity('Orders');
+        $this->setEntityContains(['OrderProducts']);
+        $this->setLabel('pedido');
     }
 }
