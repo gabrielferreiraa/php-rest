@@ -68,8 +68,8 @@ if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
  */
 try {
     Configure::config('default', new PhpConfig());
-    var_dump($_SERVER);die();
-    Configure::load('app', 'default', false);
+    $env = isset($_SERVER['APPLICATION_ENV']) && !empty($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'app_production';
+    Configure::load($env, 'default', false);
 } catch (\Exception $e) {
     exit($e->getMessage() . "\n");
 }
