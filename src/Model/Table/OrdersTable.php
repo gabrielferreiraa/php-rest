@@ -78,4 +78,51 @@ class OrdersTable extends Table
 
         return $rules;
     }
+
+    public function getOrdersByCompany($companyId)
+    {
+        $response = $this
+            ->find()
+            ->contain(['OrderProducts.Products'])
+            ->leftJoin(['c' => 'companies'], ['c.id = Orders.company_id'])
+            ->where([
+                'c.id' => $companyId
+            ]);
+
+        if (!empty($response)) {
+            $response = $response->toArray();
+
+            return $response;
+        }
+
+        return [];
+    }
+
+    public function search($data)
+    {
+        $response = $this
+            ->find()
+            ->contain(['OrderProducts.Products'])
+            ->leftJoin(['c' => 'companies'], ['c.id = Orders.company_id']);
+
+        if(isset($data['cnpj']) && !empty($data['cnpj'])) {
+            $response->where([
+                "c.cnpj::text ILIKE '%" . $data['cnpj'] ."%'"
+            ]);
+        }
+
+        if(isset($data['order']) && !empty($data['order'])) {
+            $response->where([
+                "Orders.id::text ILIKE '%" . $data['order'] . "%'"
+            ]);
+        }
+
+        if (!empty($response)) {
+            $response = $response->toArray();
+
+            return $response;
+        }
+
+        return [];
+    }
 }

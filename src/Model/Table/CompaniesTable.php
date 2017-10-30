@@ -75,6 +75,7 @@ class CompaniesTable extends Table
         $response = $this
             ->find()
             ->select([
+                'Companies.id',
                 'Companies.name',
                 'Companies.cnpj',
                 'qtd' => 'COUNT(o.id)'

@@ -30,4 +30,9 @@ class Company extends Entity
         'created' => true,
         'modified' => true
     ];
+
+    protected function _setCnpj($cnpj)
+    {
+        return preg_match('/^[0-9]+$/', $cnpj);
+    }
 }
