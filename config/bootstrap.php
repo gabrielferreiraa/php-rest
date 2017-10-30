@@ -68,6 +68,7 @@ if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
  */
 try {
     Configure::config('default', new PhpConfig());
+    var_dump($_SERVER);die();
     Configure::load('app', 'default', false);
 } catch (\Exception $e) {
     exit($e->getMessage() . "\n");
