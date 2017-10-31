@@ -33,6 +33,6 @@ class Company extends Entity
 
     protected function _setCnpj($cnpj)
     {
-        return preg_match('/^[0-9]+$/', $cnpj);
+        return preg_replace('#[^0-9]#', '', $cnpj);
     }
 }
