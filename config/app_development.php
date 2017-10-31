@@ -344,4 +344,16 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+    'JWT' => [
+        'key' => 'dGFsbGVyLWNoYWxsYW5nZQ==',
+        'token' => ['email', 'token']
+    ],
+    'Cors' => [
+        'AllowOrigin' => true,
+        'AllowCredentials' => true,
+        'AllowMethods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        'AllowHeaders' => true,
+        'ExposeHeaders' => false,
+        'exceptionRenderer' => 'Cors\Error\AppExceptionRenderer'
+    ]
 ];
