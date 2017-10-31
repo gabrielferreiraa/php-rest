@@ -1,8 +1,11 @@
 <?php
 namespace Ws\Controller;
 
+use Aura\Intl\Exception;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Ws\Controller\AppController;
 
 class OrdersController extends AppController
@@ -22,6 +25,47 @@ class OrdersController extends AppController
         $this->setLabel('pedido');
 
         $this->Orders = TableRegistry::get('Orders');
+    }
+
+    public function add()
+    {
+        if ($this->request->is(['post'])) {
+            $data = $this->request->getData();
+
+            $newData = [];
+            $lastCompanyId = '';
+            foreach ($data as $value) {
+                $isSameCompany = $lastCompanyId !== '' && $lastCompanyId !== $value['company_id'];
+                if($isSameCompany) {
+                    throw new InternalErrorException('Para cadastrar um pedido é permitido apenas 1 empresa por vez');
+                }
+
+                $newData = [
+                    'company_id' => $value['company_id'],
+                    'products' => [
+                        '_ids' => Hash::extract($data, '{n}.product_id')
+                    ]
+                ];
+
+                $lastCompanyId = $value['company_id'];
+            }
+
+            $entity = $this->Orders->newEntity();
+            $entity = $this->Orders->patchEntity($entity, $newData);
+
+            if (!$this->Orders->save($entity)) {
+                throw new InternalErrorException("Problema ao salvar pedido, por favor tente novamente");
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Pedido salvo(a) com sucesso',
+                'data' => $entity
+            ];
+
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']);
+        }
     }
 
     public function getOrdersByCompany()

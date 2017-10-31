@@ -2,6 +2,7 @@
 
 namespace Ws\Controller\Traits;
 
+use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
@@ -50,7 +51,7 @@ trait CrudTrait
         $query = $this->request->getQuery();
 
         $hasFinder = isset($query['find']) && !empty($query['find']);
-        if($hasFinder) {
+        if ($hasFinder) {
             $find = $query['find'];
         }
 
@@ -146,6 +147,32 @@ trait CrudTrait
 
             $this->set(compact('response'));
             $this->set('_serialize', ['response']);
+        }
+    }
+
+    public function delete($id)
+    {
+        $EntityTable = $this->getEntity();
+
+        $entity = $EntityTable
+            ->find()
+            ->where(['id' => $id])
+            ->first();
+
+        if ($entity) {
+            if (!$this->Entity->delete($entity)) {
+                throw new BadRequestException("Problema ao deletar {$this->getLabel()}");
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => ucfirst($this->getLabel()) . ' cancelado(a) com sucesso'
+            ];
+
+            $this->set(compact('response'));
+            $this->set('_serialize', ['response']);
+        } else {
+            throw new NotFoundException("{$this->getLabel()} não encontrado");
         }
     }
 }

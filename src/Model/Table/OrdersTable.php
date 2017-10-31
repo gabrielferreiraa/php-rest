@@ -45,8 +45,15 @@ class OrdersTable extends Table
             'foreignKey' => 'company_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsToMany('Products', [
+            'foreignKey' => 'order_id',
+            'targetForeignKey' => 'product_id',
+            'joinTable' => 'order_products'
+        ]);
         $this->hasMany('OrderProducts', [
-            'foreignKey' => 'order_id'
+            'foreignKey' => 'order_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
     }
 
@@ -105,9 +112,9 @@ class OrdersTable extends Table
             ->contain(['OrderProducts.Products'])
             ->leftJoin(['c' => 'companies'], ['c.id = Orders.company_id']);
 
-        if(isset($data['cnpj']) && !empty($data['cnpj'])) {
+        if(isset($data['company_id']) && !empty($data['company_id'])) {
             $response->where([
-                "c.cnpj::text ILIKE '%" . $data['cnpj'] ."%'"
+                'c.id' => $data['company_id']
             ]);
         }
 
